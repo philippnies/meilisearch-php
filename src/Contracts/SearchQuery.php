@@ -29,6 +29,7 @@ class SearchQuery
     private ?array $attributesToSearchOn = null;
     private ?bool $showRankingScore = null;
     private ?bool $showRankingScoreDetails = null;
+    private ?array $hybrid;
 
     public function setQuery(string $q): SearchQuery
     {
@@ -196,6 +197,21 @@ class SearchQuery
     }
 
     /**
+     * This is an EXPERIMENTAL feature, which may break without a major version.
+     * It's available from Meilisearch v1.7.
+     *
+     * More info: https://www.meilisearch.com/docs/reference/api/experimental-features
+     *
+     * @param array $hybrid
+     */
+    public function setHybrid(array $hybrid): SearchQuery
+    {
+        $this->hybrid = $hybrid;
+
+        return $this;
+    }
+
+    /**
      * @param list<non-empty-string> $attributesToSearchOn
      */
     public function setAttributesToSearchOn(array $attributesToSearchOn): SearchQuery
@@ -230,6 +246,7 @@ class SearchQuery
             'attributesToSearchOn' => $this->attributesToSearchOn,
             'showRankingScore' => $this->showRankingScore,
             'showRankingScoreDetails' => $this->showRankingScoreDetails,
+            'hybrid' => $this->hybrid ?? null,
         ], function ($item) { return null !== $item; });
     }
 }
